@@ -1,0 +1,21 @@
+name: CI Strategic Blueprint Project Validation
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Project Blueprint Documentation
+        run: |
+          python -c "
+          import os
+          assert os.path.exists('README.md'), 'README missing'
+          with open('README.md', 'r', encoding='utf-8') as f:
+              content = f.read()
+          print(f'Blueprint documentation verified ({len(content)} chars)')
+          "
